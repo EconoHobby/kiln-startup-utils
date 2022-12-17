@@ -60,7 +60,7 @@ then
   echo "hostname not found"
 else
   echo "hostname found: ${host_name}"
-  sudo python ~/kiln-startup-utils/wifi_LED_on.py
+  sudo python /home/pi/kiln-startup-utils/wifi_LED_on.py
 fi
 
 exit 0
