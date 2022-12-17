@@ -53,7 +53,12 @@ else
   sudo dhclient wlan0
 fi
 
-# Monitor Wifi and keep alive
+# Monitor WiFi and indicate with LED
 sudo sh /home/pi/kiln-startup-utils/wifi-monitor.sh &
+
+# kiln-controller is already started as a service
+
+# Monitor server and indicate with LED
+sudo sh /home/pi/kiln-startup-utils/server-monitor.sh &
 
 exit 0
