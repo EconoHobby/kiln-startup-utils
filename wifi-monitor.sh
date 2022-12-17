@@ -2,7 +2,7 @@
 
 while :
   do
-    if [ "$(iwconfig | grep Not-Associated)" = "" ]
+    if [ "$(iwconfig 2>/dev/null | grep "Not-Associated")" = "" ]
     then
       sudo python /home/pi/kiln-startup-utils/wifi_LED_on.py
     else
