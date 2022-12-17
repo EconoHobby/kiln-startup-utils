@@ -63,4 +63,7 @@ else
   sudo python /home/pi/kiln-startup-utils/wifi_LED_on.py
 fi
 
+# Monitor Wifi and keep alive
+sudo sh /home/pi/kiln-startup-utils/wifi-monitor.sh &
+
 exit 0
