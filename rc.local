@@ -53,16 +53,6 @@ else
   sudo dhclient wlan0
 fi
 
-# Turn on WiFi Light
-host_name=$(hostname -I)
-if [ "${host_name}" = "" ]
-then
-  echo "hostname not found"
-else
-  echo "hostname found: ${host_name}"
-  sudo python /home/pi/kiln-startup-utils/wifi_LED_on.py
-fi
-
 # Monitor Wifi and keep alive
 sudo sh /home/pi/kiln-startup-utils/wifi-monitor.sh &
 
