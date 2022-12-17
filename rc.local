@@ -51,6 +51,10 @@ else
   echo "connecting to wifi using /etc/wpa_supplicant.conf"
   sudo wpa_supplicant -B -c /etc/wpa_supplicant.conf -i wlan0
   sudo dhclient wlan0
+  if [ "$(ls /mnt/usb | grep kiln-wifi.txt)" != "" ]
+  then
+    ifconfig wlan0 | grep -Po '(inet\s)\K[^\s]*' | sudo tee /mnt/usb/kiln-ip-address.txt
+  fi
 fi
 
 # Monitor WiFi and indicate with LED
