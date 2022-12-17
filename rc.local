@@ -1,0 +1,38 @@
+#!/bin/sh -e
+#
+# rc.local
+#
+# This script is executed at the end of each multiuser runlevel.
+# Make sure that the script will "exit 0" on success or any other
+# value on error.
+#
+# In order to enable or disable this script just change the execution
+# bits.
+#
+# By default this script does nothing.
+
+# Print the IP address
+_IP=$(hostname -I) || true
+if [ "$_IP" ]; then
+  printf "My IP address is %s\n" "$_IP"
+fi
+
+/usr/local/bin/showip.sh
+/usr/local/bin/pico8
+
+### Start EconoHobby ###
+
+# Mount USB, update wpa_supplicant
+partition=$(ls /dev | grep '^sd.*1$')
+if [ "${partition}" = "" ]
+then
+  echo "USB partition not found"
+else
+  sudo mount /dev/${partition} /mnt/usb  
+fi
+
+sudo wpa_supplicant -B -c /etc/wpa_supplicant.conf -i wlan0
+sudo dhclient wlan0
+
+
+exit 0
