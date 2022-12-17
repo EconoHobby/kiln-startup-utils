@@ -1,4 +1,4 @@
 import RPi.GPIO as GPIO
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(20, GPIO.OUT)
-GPIO.OUTPUT(20, GPIO.LOW)
+GPIO.output(20, GPIO.LOW)
