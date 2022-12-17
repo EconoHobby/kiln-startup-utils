@@ -22,7 +22,7 @@ fi
 
 ### Start EconoHobby ###
 
-# Mount USB, update wpa_supplicant
+# Mount USB
 partition=$(ls /dev | grep '^sd.*1$')
 if [ "${partition}" = "" ]
 then
@@ -31,8 +31,36 @@ else
   sudo mount /dev/${partition} /mnt/usb  
 fi
 
-sudo wpa_supplicant -B -c /etc/wpa_supplicant.conf -i wlan0
-sudo dhclient wlan0
+# Update wpa_supplicant
+if [ "$(ls /mnt/usb | grep kiln-wifi.txt)" = "" ]
+then
+  echo "WiFi info not found"
+else
+  echo "WiFi info found, updating wpa_supplicant"
+  userpw=$(cat /mnt/usb/kiln-wifi.txt)
+  user=${userpw%+*}
+  pw=${userpw#*+}
+  wpa_passphrase ${user} ${pw} | sudo tee /etc/wpa_supplicant.conf
+fi
 
+# Connect to WiFi
+if [ "$(ls /etc | grep wpa_supplicant.conf)" = "" ]
+then
+  echo "/etc/wpa_supplicant.conf not found"
+else
+  echo "connecting to wifi using /etc/wpa_supplicant.conf"
+  sudo wpa_supplicant -B -c /etc/wpa_supplicant.conf -i wlan0
+  sudo dhclient wlan0
+fi
+
+# Turn on WiFi Light
+host_name=$(hostname -I)
+if [ "${host_name}" = "" ]
+then
+  echo "hostname not found"
+else
+  echo "hostname found: ${host_name}"
+  sudo python ~/kiln-startup-utils/wifi_LED_on.py
+fi
 
 exit 0
