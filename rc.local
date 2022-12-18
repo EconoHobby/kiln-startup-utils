@@ -49,8 +49,9 @@ then
   echo "/etc/wpa_supplicant.conf not found"
 else
   echo "connecting to wifi using /etc/wpa_supplicant.conf"
+  sudo killall wpa_supplicant
   sudo wpa_supplicant -B -c /etc/wpa_supplicant.conf -i wlan0
-  sudo dhclient wlan0
+  sudo dhclient wlan0 2> /dev/null
   if [ "$(ls /mnt/usb | grep kiln-wifi.txt)" != "" ]
   then
     ifconfig wlan0 | grep -Po '(inet\s)\K[^\s]*' | sudo tee /mnt/usb/kiln-ip-address.txt
