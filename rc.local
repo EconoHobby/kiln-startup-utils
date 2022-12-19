@@ -66,4 +66,9 @@ sudo sh /home/pi/kiln-startup-utils/wifi-monitor.sh &
 # Monitor server and indicate with LED
 sudo sh /home/pi/kiln-startup-utils/server-monitor.sh &
 
+# Restart kiln controller service
+# For some reason output only works if you restart it
+sudo systemctl stop kiln-controller.service
+sudo systemctl start kiln-controller.service
+
 exit 0
